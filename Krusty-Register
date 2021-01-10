@@ -1,0 +1,60 @@
+
+/* Name: Elizabeth Lundgren
+Date: 9/10/2019
+Section: 6
+Assignment: Krusty Krab register
+Due Date: 9/10/2019
+About this project: create a cash register to sum a customers order
+
+All work below was performed by Elizabeth Lundgren */
+
+#include <iostream>
+
+using namespace std;
+
+int main() {
+    // creation of menu variables and amount storage for each type
+    const double KrabbyPatty = 3.50, KelpShake = 1.00, BarnacleFries = 1.50, CoralBits = 2.00;
+    int KrabbyPatty_Amt,  KelpShake_Amt, BarnacleFries_Amt, CoralBits_Amt;
+
+
+
+    // order requests statements
+    cout << "Welcome to the Krusty Krab, Home of the Krabby Patty." << endl;
+    cout << "May I take your order?" << endl;
+    cout << " GALLEY GRUB:\n"
+            "  Krabby Patty $3.50\n"
+            "  Kelp Shake $1.00\n"
+            "  Barnacle Fries $1.50\n"
+            "  Coral Bits $2.00\n";
+
+    cout  << "How many Krabby Patties?" << endl;
+    cin >> KrabbyPatty_Amt;
+
+    cout << "How many Kelp Shakes?" << endl;
+    cin >> KelpShake_Amt;
+
+    cout << "How many orders of Barnacle fries?" << endl;
+    cin >> BarnacleFries_Amt;
+
+    cout << "How many orders of Coral Bits?" << endl;
+    cin >> CoralBits_Amt;
+
+    // calculation of customer total and tax
+    int Customer_Total;
+    Customer_Total = KrabbyPatty*KrabbyPatty_Amt + KelpShake*KelpShake_Amt +  BarnacleFries*BarnacleFries_Amt + CoralBits*CoralBits_Amt;
+    int Under_Sea_Tax = .055;
+
+    cout.precision(2);
+    cout << "Order Total (Before Undersea Tax): $" << Customer_Total << endl;
+    int Under_Sea_Tax_Amt = Under_Sea_Tax*Customer_Total;
+
+
+    cout << "Undersea Tax: $" << Under_Sea_Tax_Amt << endl;
+    cout << "Final Order Total including Undersea Tax: $" << Customer_Total + Under_Sea_Tax_Amt << endl;
+
+    cout << "Thanks for dining at the Krusty Krab!" << endl;
+
+
+    return 0;
+}
