@@ -1,0 +1,168 @@
+
+/* Name: Elizabeth Lundgren
+Date: 9/17/2019
+Section: 6
+Assignment: #2
+Due Date: 9/19/2019
+About this project: this projects goal was to create a grade calculator for the class
+and apply if/else and switch case lines
+Assumptions: ASSUME that the user will enter valid homework scores, recitation grades and test grades
+
+All work below was performed by Elizabeth Lundgren */
+
+#include <iostream>
+#include <iomanip>
+using namespace std;int main() {
+
+    // announcing of variables for HW, Recitation, and Tests
+    int Hw1, Hw2, Hw3, Hw4, Hw5, Hw6, Hw7;
+    int Rec1, Rec2, Rec3, Rec4, Rec5, Rec6;
+    int Test1, Test2, Test3;
+
+
+    cout << "Welcome to the grade calculator!" << endl;
+    //insertion of HW grades
+    cout << endl;
+    cout << "HOMEWORK GRADES --> " << endl;
+    cout << "Homework 1: ";
+    cin >> Hw1;
+    cout << "Homework 2: ";
+    cin >> Hw2;
+    cout << "Homework 3: ";
+    cin >> Hw3;
+    cout << "Homework 4: ";
+    cin >> Hw4;
+    cout << "Homework 5: ";
+    cin >> Hw5;
+    cout << "Homework 6: ";
+    cin >> Hw6;
+    cout << "Homework 7: ";
+    cin >> Hw7;
+    cout << endl;
+
+    // insertion of Recitation grades
+    cout << "RECITATION GRADES --> " << endl;
+    cout << "Recitation 1: ";
+    cin >> Rec1;
+    cout << "Recitation 2: ";
+    cin >> Rec2;
+    cout << "Recitation 3: ";
+    cin >> Rec3;
+    cout << "Recitation 4: ";
+    cin >> Rec4;
+    cout << "Recitation 5: ";
+    cin >> Rec5;
+    cout << "Recitation 6: ";
+    cin >> Rec6;
+    cout << endl;
+
+    //insertion of Test grades
+    cout << "TEST GRADES" << endl;
+    cout << "Midterm I: ";
+    cin >> Test1;
+    cout << "Midterm II: ";
+    cin >> Test2;
+    cout << "Final: ";
+    cin >> Test3;
+    cout << endl;
+
+    //announcement of final grade variables and final calculations
+    int temp;
+    double Hw_Sum;
+    double Rec_Sum;
+    double Hw_Avg;
+    double Hw_Avg_Ex;
+    double Test_Avg;
+    double Course_Avg;
+    //extra credit, announcing of response variable
+    int ExtraCredit;
+    char Response;
+    cout << "Is there any extra credit to add in? (Y or N) --> ";
+    cin >> Response;
+
+
+    //conditional extra credit statements
+    switch (Response)
+    {
+        case 'Y':
+        case 'y':
+            char Final;
+            cout << "How many extra credit points should be added? --> ";
+            cin >> ExtraCredit;
+            Hw_Sum = Hw1 + Hw2 + Hw3 + Hw4 + Hw5 + Hw6 + Hw7;
+            Rec_Sum = Rec1 + Rec2 + Rec3 + Rec4 + Rec5 + Rec6;
+            Hw_Avg_Ex = ((Hw_Sum + Rec_Sum + ExtraCredit) / 820) * 100;
+            Test_Avg = (((Test1 * 17.5) + (Test2 * 17.5) + (Test3 * 25)) / 60);
+            Course_Avg = ((Test1 * .175) + (Test2 * .175) + (Test3 * .25) + (Hw_Avg_Ex * .40));
+            cout << "Homework Average = " << setprecision(4) << Hw_Avg_Ex << '%' << endl;
+            cout << "Test Average: " << setprecision(4) << Test_Avg << '%' << endl;
+            if (Test_Avg <= 69)
+            {
+                cout << "(!!Test Average requirement not met, final course grade may differ!!)";
+            }
+            cout << "Course Average: " << setprecision(4) << Course_Avg << '%';
+
+            temp = Course_Avg / 10;
+            switch (temp)
+            {
+                case 10:
+                case 9:
+                    Final = 'A';
+                    break;
+                case 8:
+                    Final = 'B';
+                    break;
+                case 7:
+                    Final = 'C';
+                    break;
+                case 6:
+                    Final = 'D';
+                    break;
+                default:
+                    Final = 'F';
+            }
+            cout << "Course Grade: " << Final;
+            break;
+
+        case 'N':
+        case 'n':
+            Hw_Sum = Hw1 + Hw2 + Hw3 + Hw4 + Hw5 + Hw6 + Hw7;
+            Rec_Sum = Rec1 + Rec2 + Rec3 + Rec4 + Rec5 + Rec6;
+            Hw_Avg = ((Hw_Sum + Rec_Sum) / 820) * 100;
+            Test_Avg = (((Test1 * 17.5) + (Test2 * 17.5) + (Test3 * 25)) / 60);
+            Course_Avg = ((Test1 * .175) + (Test2 * .175) + (Test3 * .25) + (Hw_Avg * .40));
+            cout << "Homework Average = " << setprecision(4) << Hw_Avg << '%' << endl;;
+
+            cout << "Test Average: " << setprecision(4) << Test_Avg << '%' << endl;
+            if (Test_Avg <= 69)
+            {
+                cout << "(!!Test Average requirement not met, final course grade may differ!!)";
+            }
+            cout << "Course Average: " << setprecision(4) << Course_Avg << '%' << endl;
+            temp = Course_Avg / 10;
+            switch (temp)
+            {
+                case 10 :
+                case 9 :
+                    Final = 'A';
+                    break;
+                case 8:
+                    Final = 'B';
+                    break;
+                case 7:
+                    Final = 'C';
+                    break;
+                case 6:
+                    Final = 'D';
+                    break;
+                default:
+                    Final = 'F';
+            }
+            cout << "Course Grade: " << Final;
+
+            break;
+        default:
+            cout << "Invalid Response, exiting program";
+    }
+    return 0;
+}
