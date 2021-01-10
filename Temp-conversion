@@ -1,0 +1,53 @@
+/* Name: Elizabeth Lundgren
+Date: 10/4/2019
+Section: 6
+Assignment: Assignment #3
+Due Date: 10/4/2019
+About this project: converts user entered values to Celsius
+Assumptions: assume the user will enter a valid temperature value, and that they will always enter integer Fahrenheit values to convert
+
+All work below was performed by Elizabeth Lundgren */
+
+#include <iostream>
+#include <cmath>
+using namespace std;
+
+//declaration of function celsius for conversion
+double celsius(double x);
+
+
+int main() {
+
+    //declaration of variables for the loop.
+    //temp for inserted temperature to be converted, and response for the continuation of the loop
+    double temp;
+    char response;
+    double count = 0;
+    double average_temp = 0;
+
+do{
+    cout << "Enter a temperature to convert from F to C: " << endl;
+    cin >> temp;
+
+    cout << fixed; cout << showpoint; cout.precision(2);
+    cout << temp << "F = " << celsius(temp) << "C" << endl;
+
+    cout << "Enter another temperature? ( Y or N): " << endl;
+    cin >> response;
+    count++;
+    average_temp = (average_temp + celsius(temp) )/count;
+
+}while ((response != 'N') && (response != 'n'));
+
+    cout << "Conversion Summary: " << cout << endl;
+    cout << "Number of Temps Converted: " << count << endl;
+    cout << "Average Temp: " << average_temp/count << "C" << endl;
+
+    return 0;
+}
+
+//
+double celsius(double x)
+{
+    return ((x-32)*((5.0)/9));
+}
