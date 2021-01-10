@@ -1,0 +1,66 @@
+/* Name: Elizabeth Lundgren
+Date: 10/4/2019
+Section: 6
+Assignment: Assignment #3
+Due Date: 10/4/2019
+About this project: converts user entered values to millimeters and gets the difference
+Assumptions: all measurements will be positive
+
+All work below was performed by Elizabeth Lundgren */
+
+
+#include <iostream>
+#include <cmath>
+using namespace std;
+
+//declaration of function
+void WelcomeUser();
+int NumMillimeters(int, int, int);
+
+int main() {
+
+    WelcomeUser();
+
+    //announcing variables
+    int meters = 0; int meters2 = 0;
+    int cent = 0;  int cent2 = 0;
+    int milli = 0; int milli2 = 0;
+
+
+    cout << "Input first distance..." << endl;
+    cout << "Meters: ";
+    cin >> meters;
+    cout << "Centimeters: ";
+    cin >> cent;
+    cout << "Millimeters: ";
+    cin >> milli; cout << "" << endl;
+
+    cout << "Input the second distance..." << endl;
+    cout << "Meters: ";
+    cin >> meters2;
+    cout << "Centimeters: ";
+    cin >> cent2;
+    cout << "Millimeters: ";
+    cin >> milli2; cout << "" << endl;
+
+
+    cout << "The first distance is " << NumMillimeters(meters, cent, milli) << " mm" << endl;
+    cout << "The second distance is " << NumMillimeters(meters2, cent2, milli2) << " mm" << endl;
+    cout << "The difference is " << abs((NumMillimeters(meters, cent, milli)) - (NumMillimeters(meters2, cent2, milli2))) << " mm" <<endl;
+
+    return 0;
+}
+
+//function definition
+void WelcomeUser()
+{
+    cout << "Welcome to the Converter!" << endl;
+    cout << "Enter two distances and they'll be converted to millimeters (mm)." << endl;
+    cout << "" << endl;
+
+}
+
+int NumMillimeters(int x, int y, int z)
+{
+    return ((x*1000) + (y*10) + z );
+}
