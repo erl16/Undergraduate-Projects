@@ -1,0 +1,162 @@
+/* Name: Elizabeth Lundgren
+Date: 11/10/19
+Section: 6
+Assignment: 6
+Due Date: 11/12/19
+About this project:
+Assumptions:
+
+All work below was performed by Elizabeth Lundgren */
+
+#include <iostream>
+#include <string>
+#include <cstdlib>
+#include <iomanip>
+#include <ctime>
+#include <cctype>
+using namespace std;
+
+//functions
+void menu();
+void invalid();
+void bye();
+
+
+int main() {
+    //user entered string
+    cout << "To get started, enter anything you'd like, then hit enter: " << endl;
+    string user_string;
+    getline(cin, user_string);
+
+
+    //menu and user selection variable
+    menu();
+    int menu_select=0;
+    cin>> menu_select;
+
+    do {
+        if (menu_select == 1){
+            //Option 1 prints the current string to the screen
+            cout << "Current String: " << user_string << endl;
+        }
+
+        else if (menu_select == 2){
+            //Option 2/3 make the string all uppercase or lowercase. These should change your string.
+            for (int i = 0; i < user_string.size(); i++)
+                user_string[i] = toupper(user_string[i]);
+        }
+
+        else if (menu_select == 3){
+            for (int i = 0; i < user_string.size(); i++)
+                user_string[i] = tolower(user_string[i]);
+        }
+
+        else if (menu_select == 4){
+            //Option 4 allows the replacement of one character to another
+            char character; char change; int character_cnt;
+            cout << "Replace all of these characters: "; cin >> character;
+            cout << "To these characters: "; cin >> change;
+
+            for (int i = 0; i < user_string.size(); i++)
+                if(user_string[i] == character){
+                    user_string[i] = change;
+                    character_cnt++;
+                }
+
+            cout << character_cnt << " characters replaced." << endl;
+            character_cnt = 0;
+
+        }
+
+        else if (menu_select == 5){
+            //print the string stats
+            int letters_cnt = 0 ; int punct_cnt = 0 ; int digit_cnt = 0; int white_cnt = 0;
+
+            for (int i = 0; i < user_string.size();i++){
+
+                if( isalpha (user_string[i])){
+                    letters_cnt++;
+                }
+                else if (ispunct(user_string[i])){
+                    punct_cnt++;
+                }
+                else if (isalnum(user_string[i])){
+                    digit_cnt++;
+                }
+                else if (isspace(user_string[i])){
+                    white_cnt++;
+                }
+            }
+
+            cout << "Letters: " << letters_cnt << endl;
+            cout << "Punctuation: " << punct_cnt << endl;
+            cout << "Digits: " << digit_cnt << endl;
+            cout << "Whitespace: " << white_cnt << endl;
+        }
+
+        else if (menu_select == 6){
+            //Option 6 allows the user to enter a new string
+            cout << "Enter a new string!" << endl;
+            cin.ignore();
+            getline(cin, user_string);
+        }
+
+        else if (menu_select == 7){
+            //Option 7 changes the string to a new string of a random length between 1 and 20.
+            // The new string is made up of random characters that have ascii values between 32-122 (inclusive).
+            // (Hint: See c++ basics 1/2 for casting: If you need to cast an int to a character,
+            // you can place (char) in front of the value to cast).
+
+            //random number generator
+            srand(time(0));
+
+            int new_string_size = rand() % 20 + 1;
+            string temp;
+            for (int i = 0; i < new_string_size; i++) {
+                int letter = rand() % 91 + 32;
+                temp = temp + (char)letter;
+            }
+            user_string = temp;
+        }
+
+        else if (menu_select == 8 ){
+            menu();
+        }
+        else if (menu_select < 0 || menu_select > 8 ){
+            invalid();
+        }
+
+        //new menu selection
+        cout << "Make another selection\n"
+                "or enter 8 to show menu" << endl;
+        cin >> menu_select;
+
+    }while (menu_select != 0);
+
+
+    bye();
+
+    return 0;
+}
+
+void menu(){
+
+    cout << "String Manipulator Options Menu" << endl;
+    cout << "-------------------------------" << endl;
+    cout << "1 - Print the current string" << endl;
+    cout << "2 - Make the string all Uppercase" << endl;
+    cout << "3 - Make the string all Lowercase" << endl;
+    cout << "4 - Replace a character" << endl;
+    cout << "5 - Show string statistics" << endl;
+    cout << "6 - Enter a new string" << endl;
+    cout << "7 - Jazz things up... (You'll lose your current string!)" << endl;
+    cout << "8 - Show this menu" << endl;
+    cout << "0 - Quit" << endl;
+}
+
+void invalid(){
+    cout << "Invalid choice." << endl;
+}
+void bye(){
+    cout << "Bye!" << endl;
+}
