@@ -1,0 +1,323 @@
+/* Name: Elizabeth Lundgren
+Date: 12/5/19
+Section: 6
+Assignment: 7
+Due Date: 12/5/19
+About this project: (write a small blurb about what this project's goals are/what tasks it accomplishes)
+Assumptions: assume that a file is in the correct format, that there is no trailing whitespace in the file,
+and that the types and limits will be as described
+
+All work below was performed by Elizabeth Lundgren */
+
+#include <iostream>
+#include <iomanip>
+#include <fstream>
+#include <cctype>
+#include <cstdlib>
+#include <cstring>
+#include <string>
+#include <ctime>
+using namespace std;
+
+
+void menu();
+void balls(int x, int y, int z);
+bool throwBall(int ballType, int catchBase);
+
+
+//You will write a program that reads and stores Pokemon data from a file into an array of structs.
+//You will then use this data and print it out in various formats, as well as manipulate the data,
+// based on a user controlled menu with multiple selections.
+
+//•	The first line of the input file will be a single integer number -- this value tells how many records are in the file.
+// you must create a dynamic array of structs only AFTER reading in this first integer value.
+
+//•	After this, each line represents one Pokemon entry for your Pokedex.
+// Each line consists of the following fields (in this order), separated by some kind of whitespace:
+//o	Pokemon Number
+//o	Pokemon Name
+//o	Type
+//o	Catch % (some value between 0 and 100 - this value is the rate at which this type of pokemon is caught).
+
+
+//Create a structure type called Pokemon. A variable of type Pokemon should contain fields for the following:
+
+struct Pokemon {
+    int  pokemonNumber;
+    char name[35];
+    char type[35];
+    int catchPercent;
+    int numberCaught;
+    int numberSeen;
+};
+
+
+int main() {
+    srand(time(0));
+
+    //file read in
+    ifstream pokemonFile;
+
+    do {
+        cout << "Enter the name of the file to open >" << endl;
+        string file;
+        getline(cin, file);
+
+        pokemonFile.open(file);
+
+        if (pokemonFile)
+            break;
+        else{
+            cout << "Please enter a valid file name" << endl;
+        }
+    } while (true);
+
+    int arraySize;
+    pokemonFile >> arraySize;
+
+    // read in the array of pokemon
+    Pokemon* pokedex = new Pokemon[arraySize];
+    for(int i = 0; i < arraySize; i++){
+        pokemonFile >> pokedex[i].pokemonNumber;
+        pokemonFile >> pokedex[i].name;
+        pokemonFile >> pokedex[i].type;
+        pokemonFile >> pokedex[i].catchPercent;
+    }
+    pokemonFile.close();
+
+    //enter user name and welcome statement
+    cout << "What's your name, trainer? >" << endl;
+    string trainer_name;
+    getline(cin, trainer_name);
+
+    cout << "Welcome, " << trainer_name << " , to the COP3014 Safari Zone!" << endl;
+    cout << "You'll have 30 chances to catch Pokemon, make them count!" << endl;
+    cout << "The game will end once you run out of balls or if you choose to quit early" << endl;
+
+    //start game, user selection, pokemon trakcing
+    char selection;
+    int pokeBall = 10; int greatBall = 10; int ultraBall = 10;
+    int totalSeen = 0 ; int totalCaught = 0;
+
+
+    do{
+        cout << "" << endl;
+
+        menu();
+
+        cin >> selection;
+
+        if (selection == '1') {
+            //random pokemon generator
+            int randPokemon = rand()%(arraySize - 1);
+
+            cout << "A wild " << pokedex[randPokemon].name << " has appeared!" << endl;
+            cout << "Choose a ball to throw: " << endl;
+            cout << "1 - Poke Ball	(You have: " << pokeBall << ")" << endl;
+            cout << "2 - Great Ball	(You have: " << greatBall << ")" << endl;
+            cout << "3 - Ultra Ball	(You have: " << ultraBall << ")" << endl;
+
+
+            int ballChoice;
+
+            do {
+                cin >> ballChoice;
+                cout << "Selection > " << ballChoice << endl;
+
+                if (ballChoice == 1) {
+                    if (pokeBall < 1) {
+                        cout << "You don't have anymore Poke Balls!" << endl;
+                    } else {
+                        cout << "Threw a Poke Ball!" << endl;
+                        pokeBall--;
+                        bool caught = throwBall(1, pokedex[randPokemon].catchPercent);
+                        //pokemon statistics
+                        if (caught == true) {
+                            cout << "Congratulations! You caught " << pokedex[randPokemon].name << "!" << endl;
+                            pokedex[randPokemon].numberCaught++;
+                            pokedex[randPokemon].numberSeen++;
+                            totalCaught++;
+                            totalSeen++;
+                        }
+                            // if(rand stat > poke stats
+                        else {
+                            cout << pokedex[randPokemon].name << " ran away. :-( " << endl;
+                            pokedex[randPokemon].numberSeen++;
+                            totalSeen++;
+                        }
+
+                    }
+                } else if (ballChoice == 2) {
+                    if (greatBall < 1) {
+                        cout << "You don't have anymore Great Balls!" << endl;
+                    } else {
+                        cout << "Threw a Great Ball!" << endl;
+                        greatBall--;
+                        bool caught = throwBall(2, pokedex[randPokemon].catchPercent);
+                        //pokemon statistics
+                        //if(rand stat < poke stats)
+                        if (caught == true) {
+                            cout << "Congratulations! You caught " << pokedex[randPokemon].name << "!" << endl;
+                            pokedex[randPokemon].numberCaught++;
+                            pokedex[randPokemon].numberSeen++;
+                            totalCaught++;
+                            totalSeen++;
+                        }
+                            // if(rand stat > poke stats
+                        else {
+                            cout << pokedex[randPokemon].name << " ran away. :-( " << endl;
+                            pokedex[randPokemon].numberSeen++;
+                            totalSeen++;
+                        }
+                    }
+                } else if (ballChoice == 3) {
+                    if (ultraBall < 1) {
+                        cout << "You don't have anymore Poke Balls!";
+                    } else {
+                        cout << "Threw a Poke Ball!" << endl;
+                        ultraBall--;
+                        bool caught = throwBall(3, pokedex[randPokemon].catchPercent);
+
+                        //pokemon statistics
+                        //if(rand stat < poke stats)
+                        if (caught == true) {
+                            cout << "Congratulations! You caught " << pokedex[randPokemon].name << "!" << endl;
+                            pokedex[randPokemon].numberCaught++;
+                            pokedex[randPokemon].numberSeen++;
+                            totalCaught++;
+                            totalSeen++;
+                        }
+                            // if(rand stat > poke stats
+                        else {
+                            cout << pokedex[randPokemon].name << " ran away. :-( " << endl;
+                            pokedex[randPokemon].numberSeen++;
+                            totalSeen++;
+                        }
+                    }
+                } else
+                    cout << "Invalid choice. Please choose a valid ball to throw." << endl;
+
+            } while ((ballChoice!= 1) && (ballChoice != 2) && (ballChoice !=3));
+        }
+
+        else if (selection == '2'){
+            cout << fixed << setprecision(1);
+            cout << "POKEDEX: " << endl;
+            for (int i = 0; i < arraySize; i++)
+            {
+                cout << "no " << setw(6) << left << pokedex[i].pokemonNumber << setw(10) << left << pokedex[i].name
+                     << " " << setw(10) << right << "Seen: " << pokedex[i].numberSeen
+                     << "  " << "Caught: " << pokedex[i].numberCaught << endl;
+            }
+            cout << "Total Pokemon Caught : " << totalCaught << " Total Pokemon Seen : " << totalSeen << endl;
+            double catchRate = 0;
+            if (totalSeen != 0)
+            {
+                catchRate = (totalCaught / totalSeen)*100;
+            }
+            cout << "Overall Catch Rate : " << setprecision(2) << catchRate << "%" << endl;
+        }
+
+        else if (selection == '3'){
+            balls(pokeBall, greatBall, ultraBall);
+        }
+        else if (selection == '4'){
+            cout << "Show pokemon of what type? --> " << endl;
+
+            cin.ignore();
+            string pokemonType;
+            getline(cin, pokemonType);
+
+            bool tempType = false;
+
+            for (int i = 0; i < arraySize; i++) {
+                if (pokemonType == pokedex[i].type ) {
+                    if(tempType == false){
+                        cout << pokemonType; cout << pokedex[i].name;
+                        tempType = true;
+                    }
+                    else {
+                        cout << ", "<< pokedex[i].name;
+                    }
+                }
+            }
+            if (tempType == false )
+                cout << "There are no Pokemon of type " << pokemonType << endl;
+        }
+
+    } while (selection != 'Q');
+
+
+    cout << "Final Stats: " << endl;
+    cout << "POKEDEX: " << endl;
+
+    //cout << the whole damn list
+    for(int i = 0; i < arraySize; i++){
+        cout.setf(ios::left);
+        cout.width(10);
+
+        cout << "no " << pokedex[i].pokemonNumber << setw(4)  << "  " << pokedex[i].name << "  "
+        << pokedex[i].type << "  " << pokedex[i].numberSeen << pokedex[i].numberCaught <<endl;
+    }
+
+    cout << "Total Pokemon Caught: " << totalCaught << "  "
+         << "Total Pokemon Seen: " << totalSeen << endl;
+
+    cout << fixed; cout << showpoint; cout << setprecision(2);
+    double catchRate = totalCaught/totalSeen;
+    cout << "Overall Catch Rate: " << catchRate << "%" << endl;
+
+    delete [] pokedex;
+    return 0;
+}
+
+void menu(){
+    cout << "1 - Hunt for a Pokemon!" << endl;
+    cout << "2 - Pokedex Statistics" << endl;
+    cout << "3 - Print Inventory" << endl;
+    cout << "4 - Show Pokemon of X type" << endl;
+    cout << "Q - Quit" << endl;
+    cout << "Selection >" << endl;
+}
+
+
+void balls(int x, int y, int z){
+    cout << "You have: " << endl;
+    cout << x << " PokeBalls" << endl;
+    cout << y << " Great Balls" << endl;
+    cout << z << " Ultra Balls" << endl;
+}
+/*
+Random number generator to determine if the pokemon is caught or not.
+Will take in the type of ball and the base catch rate of the pokemon and will use it
+to find if the pokemon is caught or not.
+Will return true if caught, false if not caught.
+*/
+bool throwBall(int ballType, int catchBase)
+{
+    //random number generator for pokemon catch percentage
+    int catchBonus;
+
+    int catchPercent = rand() % 100;
+    if (ballType == 1)
+    {
+        catchBonus = 0;
+    }
+    else if (ballType == 2)
+    {
+        catchBonus = 20;
+    }
+    else
+    {
+        catchBonus = 40;
+    }
+    if (catchPercent < catchBase + catchBonus)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
